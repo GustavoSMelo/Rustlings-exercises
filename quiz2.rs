@@ -18,24 +18,52 @@
 // - The output element is going to be a Vector of strings.
 // No hints this time!
 
-// I AM NOT DONE
-
+#[derive(Clone)]
+#[derive(Debug)]
 pub enum Command {
     Uppercase,
     Trim,
     Append(usize),
 }
 
+impl Command {
+    fn uppercase (text: &str) -> String {
+        text.to_uppercase()
+    }
+
+    fn trim (text: String) -> String {
+        text.trim().to_string()
+    }
+
+    fn append (length: usize) -> String {
+        let mut cont = 0;
+        let mut barMessage = String::new();
+
+        while cont < length {
+            barMessage.push_str("bar");
+            cont+=1;
+        }
+
+        barMessage
+    }
+}
+
 mod my_module {
     use super::Command;
 
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
         // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+        let mut output: Vec<String> = vec![];
         for (string, command) in input.iter() {
             // TODO: Complete the function body. You can do it!
+            match command {
+                Command::Append(len) => output.push(string.to_owned() + &Command::append(*len)),
+                Command::Uppercase => output.push(Command::uppercase(string)),
+                Command::Trim => output.push(Command::trim(string.to_string()))
+            }
         }
+
         output
     }
 }
@@ -43,7 +71,7 @@ mod my_module {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    use crate::my_module::transformer;
     use super::Command;
 
     #[test]
