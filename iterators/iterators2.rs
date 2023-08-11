@@ -3,17 +3,26 @@
 // can offer. Follow the steps to complete the exercise.
 // Execute `rustlings hint iterators2` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 // Step 1.
 // Complete the `capitalize_first` function.
 // "hello" -> "Hello"
 pub fn capitalize_first(input: &str) -> String {
-    let mut c = input.chars();
-    match c.next() {
-        None => String::new(),
-        Some(first) => ???,
+    let mut vec_chars = input.chars();
+
+    if vec_chars.clone().count() > 0 {
+        let mut result = String::new();
+        let first_ch = vec_chars.next().unwrap();
+        
+        for ch in vec_chars {
+            result += &ch.to_string();
+        }
+        result.replace_range(0..0, first_ch.to_string().to_uppercase().as_str());
+
+        result
+    } else {
+        String::new()
     }
+
 }
 
 // Step 2.
@@ -21,7 +30,14 @@ pub fn capitalize_first(input: &str) -> String {
 // Return a vector of strings.
 // ["hello", "world"] -> ["Hello", "World"]
 pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
-    vec![]
+    let mut support_words = words.iter();
+    let mut result = Vec::new();
+
+    for word in support_words {
+        result.push(capitalize_first(word));
+    }
+
+    result
 }
 
 // Step 3.
@@ -29,7 +45,23 @@ pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
 // Return a single string.
 // ["hello", " ", "world"] -> "Hello World"
 pub fn capitalize_words_string(words: &[&str]) -> String {
-    String::new()
+    let mut support_words = words.iter();
+    let mut helper = Vec::new();
+    let mut result = String::new();
+
+    for word in support_words {
+        if word.len() > 0 {
+            helper.push(capitalize_first(word));
+        }
+    }
+
+    let helper_iterator = helper.iter();
+
+    for helper_words in helper_iterator {
+        result += helper_words;
+    }
+
+    result.trim().to_string()
 }
 
 #[cfg(test)]
